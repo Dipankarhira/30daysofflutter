@@ -4,7 +4,7 @@ import 'pages/home_page.dart';
 import 'pages/login_page.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -15,9 +15,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       themeMode: ThemeMode.light,
       theme: ThemeData(primarySwatch: Colors.deepPurple),
-      routes: {"/": (context) => Login(),
-      MyRoutes.homeRoute:(context) => Home(),
-      MyRoutes.loginRoute:(context) => Login()
+      routes: {"/": (context) =>const Login(),
+      MyRoutes.homeRoute:(context) =>const Home(),
+      MyRoutes.loginRoute:(context) =>const Login()
       },
     );
   }
