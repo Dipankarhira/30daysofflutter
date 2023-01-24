@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, prefer_const_constructors
 
 import 'dart:convert';
 
@@ -23,11 +23,15 @@ class _HomeState extends State<Home> {
   }
 
   loadData() async {
+    await Future.delayed(const Duration(seconds: 2));
     final catalogJson =
         await rootBundle.loadString("assets/files/catalog.json");
     final decodedData = jsonDecode(catalogJson);
     var productsData = decodedData["products"];
-   
+    CatalogModel.items = List.from(productsData)
+        .map<Items>((item) => Items.fromMap(item))
+        .toList();
+    setState(() {});
   }
 
   @override
@@ -39,16 +43,20 @@ class _HomeState extends State<Home> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: ListView.builder(
-          itemCount: CatalogModel.items.length,
-          itemBuilder: (context, index) {
-            return ItemWidget(
-              item: CatalogModel.items[index],
-            );
-          },
-        ),
-      ),
+          padding: const EdgeInsets.all(16.0),
+          child: (CatalogModel.items != null && CatalogModel.items!.isNotEmpty)
+              ? ListView.builder(
+                  itemCount: CatalogModel.items!.length,
+                  itemBuilder: (context, index) {
+                    return ItemWidget(
+                      item: CatalogModel.items![index],
+                    );
+                  },
+                )
+
+              : Center(
+                  child: CircularProgressIndicator(color: Colors.deepPurple),
+                )),
       drawer: MyDrawer(),
     );
   }
